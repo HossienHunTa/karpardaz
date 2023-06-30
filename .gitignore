@@ -45,6 +45,7 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
+/supabases
 /lib/objectbox.g.dart
 /lib/objectbox-model.json
 /lib/core/values/env.g.dart
