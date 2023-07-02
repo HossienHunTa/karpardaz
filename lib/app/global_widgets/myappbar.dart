@@ -2,12 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
+import 'package:karpardaz/app/modules/home/home_controller.dart';
 import 'package:karpardaz/core/values/values.dart';
 
 // Widget
 import 'widget.dart';
 
-class MyappBar extends StatelessWidget implements PreferredSizeWidget {
+class MyappBar extends GetView<HomeController> implements PreferredSizeWidget {
   const MyappBar({
     super.key,
     this.fromHeight = 30,
@@ -70,6 +71,20 @@ class MyappBar extends StatelessWidget implements PreferredSizeWidget {
                     onPressed: () => Languages().changeLanguage(),
                     icon: const FaIcon(
                       FontAwesomeIcons.language,
+                      color: Colors.white,
+                    ),
+                  ),
+                  IconButton(
+                    onPressed: () => controller.onRestore(),
+                    icon: const FaIcon(
+                      FontAwesomeIcons.sync,
+                      color: Colors.white,
+                    ),
+                  ),
+                  IconButton(
+                    onPressed: () => controller.onBackup(),
+                    icon: const FaIcon(
+                      FontAwesomeIcons.cloudArrowUp,
                       color: Colors.white,
                     ),
                   ),

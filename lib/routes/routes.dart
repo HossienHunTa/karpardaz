@@ -10,6 +10,7 @@ abstract class Routes {
   static const HOME = _Paths.HOME;
   static const WELCOME = _Paths.WELCOME;
   static const creditCards = _Paths.creditCards;
+  static const driver = _Paths.driver;
 }
 
 abstract class _Paths {
@@ -20,4 +21,5 @@ abstract class _Paths {
   static const HOME = '/home';
   static const WELCOME = '/welcome';
   static const creditCards = '/creditCards';
+  static const driver = '/driver';
 }

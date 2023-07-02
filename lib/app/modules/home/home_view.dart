@@ -58,6 +58,7 @@ class HomeMobileBody extends GetView<HomeController> {
       ),
       text: 'drivers',
       desc: 'desc_drivers',
+      onTap: () => Get.toNamed(Routes.driver),
     ),
     MyItem(
       icon: const FaIcon(

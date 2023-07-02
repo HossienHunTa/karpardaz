@@ -4,12 +4,16 @@ import 'package:get/get.dart';
 import 'package:karpardaz/app/data/services/objectbox/objectbox_service.dart';
 import 'package:karpardaz/core/values/values.dart';
 import 'package:karpardaz/routes/pages.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await SystemChrome.setPreferredOrientations(
       [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
-
+  await Supabase.initialize(
+    url: Env.supabaseURL,
+    anonKey: Env.supabaseKEY,
+  );
   runApp(MyApp());
 }
 

@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
 import 'package:karpardaz/app/modules/credit_cards/repository.dart';
+import 'package:karpardaz/app/modules/drivers/repository.dart';
 import 'package:karpardaz/app/modules/home/repository.dart';
 
 part 'routes.dart';
@@ -26,10 +27,10 @@ class AppPages {
       page: () => const CreditCardsView(),
       binding: CreditCardsBinding(),
     ),
-    // GetPage(
-    //   name: _Paths.WELCOME,
-    //   page: () => Welcome_View(),
-    //   binding: Welcome_Binding(),
-    // ),
+    GetPage(
+      name: _Paths.driver,
+      page: () => const DriverView(),
+      binding: DriverBinding(),
+    ),
   ];
 }
