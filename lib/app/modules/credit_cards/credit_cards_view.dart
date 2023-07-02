@@ -47,6 +47,8 @@ class CreditCardsMobileBodyisPortrait extends GetView<CreditCardsController> {
               onPressed: () {
                 try {
                   controller.onBackup();
+                  ScaffoldMessenger.of(context)
+                      .showSnackBar(SnackBar(content: Text('success'.tr)));
                 } catch (e) {
                   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                       content:
@@ -62,6 +64,8 @@ class CreditCardsMobileBodyisPortrait extends GetView<CreditCardsController> {
               onPressed: () {
                 try {
                   controller.onRestore();
+                  ScaffoldMessenger.of(context)
+                      .showSnackBar(SnackBar(content: Text('success'.tr)));
                 } catch (e) {
                   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                       content:
