@@ -28,7 +28,8 @@ final Map<String, String> enUS = {
   'onBackup': 'Difficulty communicating. Error : @error',
   'onRestore': 'Difficulty communicating. Error : @error',
   'btn_submit': 'Submit',
-  'btn_update': 'Update'
+  'btn_update': 'Update',
+  'success': 'done successfully'
 };
 
 Map<int, String> get monthEN => {

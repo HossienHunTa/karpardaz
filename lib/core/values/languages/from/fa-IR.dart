@@ -28,7 +28,8 @@ final Map<String, String> faIR = {
   'onBackup': 'مشکل در برقراری ارتباط. مشکل : @error',
   'onRestore': 'مشکل در برقراری ارتباط. مشکل : @error',
   'btn_submit': 'ثبت',
-  'btn_update': 'بروزرسانی'
+  'btn_update': 'بروزرسانی',
+  'success': 'با موفقیت انجام شد'
 };
 
 Map<int, String> get monthIR => {
