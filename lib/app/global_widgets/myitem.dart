@@ -230,45 +230,147 @@ class CreditCardItem extends StatelessWidget {
   }
 }
 
-// Container(
-// width: double.infinity,
-// height: size.height * 0.2,
-// margin: const EdgeInsets.fromLTRB(10, 15, 10, 10),
-// decoration: const BoxDecoration(
-// color: Colors.amber,
-// borderRadius: BorderRadius.all(Radius.circular(25)),
-// boxShadow: [
-// BoxShadow(
-// color: Colors.black,
-// blurRadius: 1,
-// spreadRadius: 1,
-// offset: Offset(0, 1))
-// ]),
-// child: Stack(
-// alignment: Alignment.center,
-// children: [
-// Positioned(
-// left: 5,
-// top: 5,
-// child: Image.asset(
-// bankLogo['']!,
-// width: 80,
-// height: 80,
-// ),
-// ),
-// Column(
-// mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-// crossAxisAlignment: CrossAxisAlignment.center,
-// children: [
-// Text('Hossien Mohmmadian'),
-// Text('6037-9981-3707-4952'),
-// Padding(
-// padding: EdgeInsets.symmetric(horizontal: 10),
-// child: Text('IR000000000000000000000000'),
-// )
-// ],
-// ),
-//
-// ],
-// ),
-// ),
+class DriverItem extends StatelessWidget {
+  const DriverItem({
+    super.key,
+    required this.name,
+    this.amount,
+    required this.date,
+    this.onDelete,
+    this.onUpdate,
+  });
+
+  final String name;
+  final String? amount;
+  final String? date;
+  final onDelete;
+  final onUpdate;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(2, 5.0, 2, 5),
+      child: Container(
+        width: double.infinity,
+        height: 150,
+        decoration: const BoxDecoration(
+            borderRadius: BorderRadius.all(Radius.circular(10.0)),
+            gradient: LinearGradient(
+              colors: [Color(0xffFFBB29), Color(0xffFE8910)],
+              tileMode: TileMode.decal,
+            ),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black12,
+                blurRadius: 10.0,
+                spreadRadius: 2.0,
+              )
+            ]),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Expanded(
+                child: Padding(
+                    padding: const EdgeInsets.fromLTRB(10, 10, 5, 5),
+                    child: Column(
+                      children: [
+                        Expanded(
+                          child: Image.asset(
+                            'assets/images/resizekarpardazlogo.png',
+                            width: 80,
+                            height: 80,
+                          ),
+                        ),
+                        Row(
+                          children: [
+                            Expanded(
+                              child: IconButton(
+                                  onPressed: onDelete,
+                                  icon: const FaIcon(
+                                    FontAwesomeIcons.trash,
+                                    color: Colors.white,
+                                  )),
+                            ),
+                            Expanded(
+                              child: IconButton(
+                                  onPressed: onUpdate,
+                                  icon: const FaIcon(
+                                    FontAwesomeIcons.edit,
+                                    color: Colors.white,
+                                  )),
+                            )
+                          ],
+                        )
+                      ],
+                    ))),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 10.0),
+              child: SizedBox(
+                width: 250.0,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    MyText(text: name),
+                    (amount!.isNotEmpty)
+                        ? InkWell(
+                            onTap: () {
+                              Clipboard.setData(
+                                ClipboardData(
+                                    text: 'driverCopy'.trParams({
+                                  'amount': amount!,
+                                  'date': date!,
+                                  'name': name
+                                })),
+                              );
+                              ScaffoldMessenger.of(context)
+                                  .showSnackBar(SnackBar(
+                                content: Text("copyText".tr),
+                              ));
+                            },
+                            child: MyText(
+                              text: (amount!.isNotEmpty)
+                                  ? '$amount ریال'
+                                  : 'notAmount'.tr,
+                            ),
+                          )
+                        : const SizedBox(),
+                    Padding(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 5.0,
+                        ),
+                        child: InkWell(
+                          onTap: () {
+                            Clipboard.setData(
+                              ClipboardData(
+                                  text: 'driverCopy'.trParams({
+                                'amount': amount!,
+                                'date': date!,
+                                'name': name
+                              })),
+                            );
+                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                              content: Text("copyText".tr),
+                            ));
+                          },
+                          child: Text(
+                            date!,
+                            style: const TextStyle(
+                              color: Colors.white,
+                              fontFamily: "iransans",
+                              fontSize: 18,
+                              height: 1.8,
+                            ),
+                          ),
+                        ))
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}

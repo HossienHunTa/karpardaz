@@ -28,7 +28,7 @@ class ObjectBoxService extends GetxService {
   }
 
   void backupDatabaseObjBox() async {
-    await Share.shareXFiles([XFile('$path/data.mdb'), XFile('$path/lock.mdb')],
+    await Share.shareXFiles([XFile('$path/data.mdb')],
         text: 'DataBase Karpardaz Application');
   }
 

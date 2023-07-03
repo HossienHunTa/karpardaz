@@ -1,8 +1,13 @@
 // ignore_for_file: must_be_immutable, prefer_typing_uninitialized_variables, camel_case_types
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:karpardaz/core/values/values.dart';
+import 'package:persian_datetime_picker/persian_datetime_picker.dart';
+
+import '../modules/drivers/repository.dart';
+import 'mytexts.dart';
 
 class myTextField extends StatelessWidget {
   String? hintText;
@@ -13,6 +18,7 @@ class myTextField extends StatelessWidget {
   int maxLength;
   bool isPassword;
   bool isError;
+  List<TextInputFormatter>? inputFormatters;
   final onChanged;
   final onSaved;
   final onTap;
@@ -36,6 +42,7 @@ class myTextField extends StatelessWidget {
     this.onSaved,
     this.onTap,
     this.onTapOutside,
+    this.inputFormatters,
   });
 
   @override
@@ -99,6 +106,7 @@ class myTextField extends StatelessWidget {
             onEditingComplete: onEditingComplete,
             onTapOutside: onTapOutside,
             onFieldSubmitted: onFieldSubmitted,
+            inputFormatters: inputFormatters,
             style: const TextStyle(
               color: Colors.black,
               fontFamily: 'vazir',
@@ -414,5 +422,90 @@ class IBANField extends StatelessWidget {
         ),
       ),
     );
+  }
+}
+
+class DatePicker extends StatelessWidget {
+  TextEditingController? controller;
+  TextInputType keyboardType;
+  bool enabled;
+  bool isError;
+  final RxString _selectedDate =
+      '${Jalali.now().year}/${Jalali.now().month}/${Jalali.now().day}'.obs;
+  DriverController getController = Get.find();
+  final RxString _textDate =
+      '${Jalali.now().year}/${Jalali.now().month}/${Jalali.now().day}'.obs;
+
+  Jalali initialDate;
+  String? y;
+  String? m;
+  String? d;
+
+  String get selectedDate => _selectedDate.value;
+
+  DatePicker({
+    super.key,
+    this.isError = false,
+    this.enabled = true,
+    this.keyboardType = TextInputType.datetime,
+    required this.initialDate,
+    required this.controller,
+  }) {
+    _textDate.value =
+        '${initialDate.year}/${initialDate.month}/${initialDate.day}';
+  }
+
+  Future<void> _selectDate(BuildContext context) async {
+    final Jalali? pickedDate = await showPersianDatePicker(
+        context: context,
+        initialDate: initialDate,
+        firstDate: Jalali(1400, 1),
+        lastDate: Jalali(1410, 12),
+        initialEntryMode: PDatePickerEntryMode.calendarOnly,
+        initialDatePickerMode: PDatePickerMode.day,
+        builder: (context, child) {
+          return Theme(
+            data: ThemeData(
+              dialogTheme: const DialogTheme(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(0)),
+                ),
+              ),
+            ),
+            child: child!,
+          );
+        });
+    if (pickedDate != null && pickedDate != selectedDate) {
+      _textDate.value =
+          '${pickedDate.year}/${pickedDate.month}/${pickedDate.day}';
+      _selectedDate.value =
+          '${pickedDate.year}/${pickedDate.month}/${pickedDate.day}';
+      controller!.text = selectedDate;
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final double screenWidth = MediaQuery.of(context).size.width;
+    return InkWell(
+        onTap: () => _selectDate(context),
+        child: Container(
+            height: screenWidth / 7,
+            alignment: Alignment.center,
+            decoration: const BoxDecoration(
+              color: Colors.amber,
+              borderRadius: BorderRadius.all(Radius.circular(50)),
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                const FaIcon(FontAwesomeIcons.calendar),
+                Obx(() => MyText(
+                      text: _textDate.value,
+                      color: Colors.black,
+                    )),
+              ],
+            )));
   }
 }
