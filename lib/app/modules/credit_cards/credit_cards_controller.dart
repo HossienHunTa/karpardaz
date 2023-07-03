@@ -21,6 +21,7 @@ class CreditCardsController extends GetxController {
   final RxBool _ibanFieldError = false.obs;
   final RxBool _nameFieldError = false.obs;
   final RxBool _isLoadingVertical = false.obs;
+  final RxString e = ''.obs;
   final textCreditCardsNumber = ''.obs;
   final textCreditCardsName = ''.obs;
   final textCreditCardsShaba = ''.obs;
@@ -44,7 +45,7 @@ class CreditCardsController extends GetxController {
     textUpdateCreditCardsIBANController = TextEditingController();
     textCreditCardsIBANController.text = 'IR';
     _creditCardBox = _objectBoxService.creditCardBox;
-    itemList.assignAll(_creditCardBox.getAll());
+    onUpdate();
   }
 
   @override
@@ -63,19 +64,35 @@ class CreditCardsController extends GetxController {
     _isLoadingVertical.value = true;
   }
 
-  void onBackup() {
-    creditCardBackupService.creditCardsBackup(_creditCardBox.getAll());
+  bool onBackup() {
+    try {
+      creditCardBackupService.creditCardsBackup(_creditCardBox.getAll());
+      return true;
+    } catch (E) {
+      e.value = E.toString();
+      return false;
+    }
   }
 
-  void onRestore() async {
-    final list = await creditCardBackupService.creditCardsRestore();
-    if (list == [] || list.isEmpty) {
-      onBackup();
-    } else {
-      _creditCardBox.removeAll();
-      _creditCardBox.putMany(list);
-      itemList.assignAll(_creditCardBox.getAll());
+  Future<bool> onRestore() async {
+    try {
+      final list = await creditCardBackupService.creditCardsRestore();
+      if (list == [] || list.isEmpty) {
+        onBackup();
+      } else {
+        _creditCardBox.removeAll();
+        _creditCardBox.putMany(list);
+        onUpdate();
+        return true;
+      }
+    } catch (E) {
+      e.value = E.toString();
     }
+    return false;
+  }
+
+  void onUpdate() {
+    itemList.assignAll(_creditCardBox.getAll());
   }
 
   bool validateTextCreditCardsNumber(String value) {
@@ -94,10 +111,6 @@ class CreditCardsController extends GetxController {
       }
     }
     return false;
-  }
-
-  void onUpdate() {
-    itemList.assignAll(_creditCardBox.getAll());
   }
 
   void btnDelete(int id) async {

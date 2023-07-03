@@ -45,14 +45,13 @@ class CreditCardsMobileBodyisPortrait extends GetView<CreditCardsController> {
           actions: [
             IconButton(
               onPressed: () {
-                try {
-                  controller.onBackup();
+                if (controller.onBackup()) {
                   ScaffoldMessenger.of(context)
                       .showSnackBar(SnackBar(content: Text('success'.tr)));
-                } catch (e) {
+                } else {
                   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                      content:
-                          Text('onBackup'.trParams({'error': e.toString()}))));
+                      content: Text('onBackup'
+                          .trParams({'error': controller.e.toString()}))));
                 }
               },
               icon: const FaIcon(
@@ -61,15 +60,14 @@ class CreditCardsMobileBodyisPortrait extends GetView<CreditCardsController> {
               ),
             ),
             IconButton(
-              onPressed: () {
-                try {
-                  controller.onRestore();
+              onPressed: () async {
+                if (await controller.onRestore()) {
                   ScaffoldMessenger.of(context)
                       .showSnackBar(SnackBar(content: Text('success'.tr)));
-                } catch (e) {
+                } else {
                   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                      content:
-                          Text('onRestore'.trParams({'error': e.toString()}))));
+                      content: Text('onRestore'
+                          .trParams({'error': controller.e.toString()}))));
                 }
               },
               icon: const FaIcon(
