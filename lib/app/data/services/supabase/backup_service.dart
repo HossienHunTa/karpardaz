@@ -64,12 +64,8 @@ class DriverBackupService extends GetxService {
             .delete()
             .eq('driverName', v.driverName)
             .select('*');
-        newList.add({
-          'driverName': v.driverName,
-          'driverCreditCard': v.driverCreditCard,
-          'amount': v.amount,
-          'date': v.date
-        });
+        newList.add(
+            {'driverName': v.driverName, 'amount': v.amount, 'date': v.date});
       }
       await supabase.client.from('driverName').insert(newList);
     }
