@@ -50,3 +50,5 @@ app.*.map.json
 /lib/objectbox.g.dart
 /lib/objectbox-model.json
 /lib/core/values/env.g.dart
+key.properties
+*.jks

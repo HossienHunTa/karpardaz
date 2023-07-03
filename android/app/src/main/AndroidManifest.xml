@@ -7,7 +7,7 @@
     <application
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher"
-        android:label="karpardaz">
+        android:label="Karpardaz">
 
         <activity
             android:name=".MainActivity"
@@ -34,6 +34,6 @@
         <meta-data
             android:name="flutterEmbedding"
             android:value="2" />
-        
+
     </application>
 </manifest>
