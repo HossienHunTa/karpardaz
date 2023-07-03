@@ -4,8 +4,10 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:karpardaz/app/data/model/repository.dart';
 import 'package:karpardaz/app/global_widgets/widget.dart';
+import 'package:karpardaz/core/utils/utils.dart';
 import 'package:karpardaz/core/values/values.dart';
 import 'package:lazy_load_scrollview/lazy_load_scrollview.dart';
+import 'package:persian_datetime_picker/persian_datetime_picker.dart';
 
 import 'repository.dart';
 
@@ -32,7 +34,7 @@ class DriverMobileBodyisPortrait extends GetView<DriverController> {
         resizeToAvoidBottomInset: false,
         appBar: AppBar(
           backgroundColor: Colors.amber[600],
-          title: MyTitle(text: 'creditCards_title'.tr),
+          title: MyTitle(text: 'driver_title'.tr),
           centerTitle: true,
           leading: IconButton(
               icon: FaIcon(
@@ -45,12 +47,13 @@ class DriverMobileBodyisPortrait extends GetView<DriverController> {
           actions: [
             IconButton(
               onPressed: () {
-                try {
-                  controller.onBackup();
-                } catch (e) {
+                if (controller.onBackup()) {
+                  ScaffoldMessenger.of(context)
+                      .showSnackBar(SnackBar(content: Text('success'.tr)));
+                } else {
                   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                      content:
-                          Text('onBackup'.trParams({'error': e.toString()}))));
+                      content: Text('onBackup'
+                          .trParams({'error': controller.e.toString()}))));
                 }
               },
               icon: const FaIcon(
@@ -59,13 +62,14 @@ class DriverMobileBodyisPortrait extends GetView<DriverController> {
               ),
             ),
             IconButton(
-              onPressed: () {
-                try {
-                  controller.onRestore();
-                } catch (e) {
+              onPressed: () async {
+                if (await controller.onRestore()) {
+                  ScaffoldMessenger.of(context)
+                      .showSnackBar(SnackBar(content: Text('success'.tr)));
+                } else {
                   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                      content:
-                          Text('onRestore'.trParams({'error': e.toString()}))));
+                      content: Text('onRestore'
+                          .trParams({'error': controller.e.toString()}))));
                 }
               },
               icon: const FaIcon(
@@ -122,10 +126,10 @@ class DriverMobileBodyisPortrait extends GetView<DriverController> {
                       child: FadeInAnimation(
                         duration: const Duration(milliseconds: 2500),
                         curve: Curves.fastLinearToSlowEaseIn,
-                        child: CreditCardItem(
-                          creditCardsName: item.driverName,
-                          creditCardsNumber: item.driverCreditCard,
-                          creditCardsIBAN: item.amount!.tr,
+                        child: DriverItem(
+                          name: item.driverName,
+                          date: item.date,
+                          amount: item.amount,
                           onDelete: () => controller.btnDelete(item.id),
                           onUpdate: () => showModalBottomSheet(
                               context: context,
@@ -138,13 +142,15 @@ class DriverMobileBodyisPortrait extends GetView<DriverController> {
                                     top: Radius.circular(35)),
                               ),
                               builder: (BuildContext context) {
-                                // controller.textDriverCreditCardsNumberController
-                                //     .text = item.driverCreditCard!;
-                                // controller.textDateController
-                                //     .text = item.creditCardNumber!;
-                                // controller.textUpdateCreditCardsIBANController
-                                //     .text = item.creditCardIBAN!;
-                                return MyModalUpdate(id: item.id);
+                                controller.textUpdateDriverNameController.text =
+                                    item.driverName;
+                                controller.textUpdateAmountController.text =
+                                    item.amount!;
+                                controller.textUpdateDateController.text =
+                                    item.date;
+                                return MyModalUpdate(
+                                    id: item.id,
+                                    date: jalaliStringToInt(item.date));
                               }),
                         ),
                       ),
@@ -177,24 +183,24 @@ class MyModal extends GetView<DriverController> {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              creditCardsField(
-                hintText: 'creditCards_hintText'.tr,
-                controller: controller.textDriverCreditCardsNumberController,
-                keyboardType: TextInputType.number,
-                isError: controller.creditCardsFieldError,
-              ),
-              IBANField(
-                hintText: 'IBAN_hintText'.tr,
-                controller: controller.textAmountController,
-                keyboardType: TextInputType.number,
-                isError: controller.amountFieldError,
-              ),
               myTextField(
                 hintText: 'nameField_hintText'.tr,
                 controller: controller.textDriverNameController,
                 icon: const FaIcon(FontAwesomeIcons.user),
                 keyboardType: TextInputType.name,
                 isError: controller.nameFieldError,
+              ),
+              myTextField(
+                hintText: 'amountField_hintText'.tr,
+                controller: controller.textAmountController,
+                icon: const FaIcon(FontAwesomeIcons.moneyBill),
+                keyboardType: TextInputType.number,
+                isError: controller.amountFieldError,
+                inputFormatters: [ThousandsSeparatorInputFormatter()],
+              ),
+              DatePicker(
+                controller: controller.textDateController,
+                initialDate: Jalali.now(),
               ),
               ElevatedButton(
                 onPressed: () => controller.btnSubmit(),
@@ -220,9 +226,14 @@ class MyModal extends GetView<DriverController> {
 }
 
 class MyModalUpdate extends GetView<DriverController> {
-  const MyModalUpdate({super.key, required this.id});
+  const MyModalUpdate({
+    super.key,
+    required this.id,
+    required this.date,
+  });
 
   final int id;
+  final Jalali date;
 
   @override
   Widget build(BuildContext context) {
@@ -238,25 +249,25 @@ class MyModalUpdate extends GetView<DriverController> {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              // creditCardsField(
-              //   hintText: 'creditCards_hintText'.tr,
-              //   controller: controller.textDateController,
-              //   keyboardType: TextInputType.number,
-              //   isError: controller.creditCardsFieldError,
-              // ),
-              // IBANField(
-              //   hintText: 'IBAN_hintText'.tr,
-              //   controller: controller.textUpdateCreditCardsIBANController,
-              //   keyboardType: TextInputType.number,
-              //   isError: controller.ibanFieldError,
-              // ),
-              // myTextField(
-              //   hintText: 'nameField_hintText'.tr,
-              //   controller: controller.textUpdateCreditCardsNameController,
-              //   icon: const FaIcon(FontAwesomeIcons.user),
-              //   keyboardType: TextInputType.name,
-              //   isError: controller.nameFieldError,
-              // ),
+              myTextField(
+                hintText: 'nameField_hintText'.tr,
+                controller: controller.textUpdateDriverNameController,
+                icon: const FaIcon(FontAwesomeIcons.user),
+                keyboardType: TextInputType.name,
+                isError: controller.nameFieldError,
+              ),
+              myTextField(
+                hintText: 'amountField_hintText'.tr,
+                controller: controller.textUpdateAmountController,
+                icon: const FaIcon(FontAwesomeIcons.moneyBill),
+                keyboardType: TextInputType.number,
+                isError: controller.amountFieldError,
+                inputFormatters: [ThousandsSeparatorInputFormatter()],
+              ),
+              DatePicker(
+                controller: controller.textUpdateDateController,
+                initialDate: date,
+              ),
               ElevatedButton(
                 style: ButtonStyle(
                   backgroundColor: MaterialStateProperty.resolveWith((states) {
