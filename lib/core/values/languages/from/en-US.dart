@@ -19,9 +19,11 @@ final Map<String, String> enUS = {
   'desc_bankchecks':
       'You can register your bank checks and manage them using this section.',
   'creditCards_title': 'Credit Card',
+  'driver_title': 'Drivers',
   'creditCards_hintText': '6037********7788',
   'IBAN_hintText': 'IR880510**************1580',
   'nameField_hintText': 'Vahdat Vahdani',
+  'amountField_hintText': 'Enter the amount in dollars',
   'noData': 'No data recorded!',
   'IR000000000000000000000000': 'No Set IBAN',
   'copyText': 'Copied successfully.',
@@ -29,7 +31,10 @@ final Map<String, String> enUS = {
   'onRestore': 'Difficulty communicating. Error : @error',
   'btn_submit': 'Submit',
   'btn_update': 'Update',
-  'success': 'done successfully'
+  'success': 'done successfully',
+  'driverCopy':
+      'The amount of @amount Rials was paid to the driver @name on @date.',
+  'notAmount': 'No amount has been registered!'
 };
 
 Map<int, String> get monthEN => {
