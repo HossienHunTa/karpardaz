@@ -1,10 +1,20 @@
-# Karpardaz
+<div align="center">
+  <img src="assets/images/karpardazlogo.png" alt="Anjoman Logo" style="width: 150px; padding: 0 20px;">
+  <h1>Karpardaz</h1>
+  <p>Karpardaz is an application for doing the daily work of a purchasing manager or an ordinary person.</p>
+</div>
+<div align="center">
 
-Karpardaz is an application for doing the daily work of a purchasing manager or an ordinary person.
-![alt 1](https://s8.uupload.ir/files/photo_2023-07-08_19-47-22_wjp.jpg)
-![alt 2](https://s8.uupload.ir/files/photo_2023-07-08_19-47-35_1316.jpg)
-![alt 3](https://s8.uupload.ir/files/photo_2023-07-08_19-47-31_pvv9.png)
-![alt 4](https://s8.uupload.ir/files/screenshot_20230708_194428_com.karpardaz.karpardaz_umbv.png)
+[![MIT license](https://img.shields.io/badge/License-MIT-blue.svg)](/LICENSE)
+
+## Demo
+
+<img src="https://s8.uupload.ir/files/photo_2023-07-08_19-47-22_wjp.jpg" alt="Home_Admin" style="height: 300px; padding: 0 20px;">
+<img src="https://s8.uupload.ir/files/photo_2023-07-08_19-47-35_1316.jpg" alt="menu" style="height: 300px; padding: 0 20px;">
+<img src="https://s8.uupload.ir/files/photo_2023-07-08_19-47-31_pvv9.png" alt="Home_Student" style="height: 300px; padding: 0 20px;">
+<img src="https://s8.uupload.ir/files/screenshot_20230708_194428_com.karpardaz.karpardaz_umbv.png" alt="Contact us" style="height: 300px; padding: 0 20px;">
+</div>
+
 * For Mobile: https://github.com/HossienHunTa/karpardaz/releases/tag/release (Alpha Version)
 
 ## Getting Started
@@ -42,6 +52,15 @@ or watch command in order to keep the source code synced automatically:
 ```
 flutter pub run build_runner watch
 ```
+
+## Environment Variables
+
+To run this project, you need to add the following environment variables to your .env file.
+
+| Name             | Type                                                                 |
+| ----------------- | ------------------------------------------------------------------ |
+| `SUPABASEURL` | String |
+| `SUPABASEKEY` | String |
 
 ## Karprdaz Features:
 
@@ -224,3 +243,7 @@ class MyApp extends StatelessWidget {
 I will be happy to answer any questions that you may have on this approach, and if you want to lend a hand with the karpardaz then please feel free to submit an issue and/or pull request 🙂
 
 Again to note, this is example can appear as over-architectured for what it is - but it is an example only. If you liked my work, don’t forget to ⭐ star the repo to show your support.
+
+<div align="center">
+  <img src="assets/images/huntalogo_text.png" alt="HunTa Logo" style="width: 300px; padding: 0 20px;">
+</div>
