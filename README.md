@@ -1,7 +1,10 @@
 # Karpardaz
 
 Karpardaz is an application for doing the daily work of a purchasing manager or an ordinary person.
-
+![alt 1](https://s8.uupload.ir/files/photo_2023-07-08_19-47-22_wjp.jpg)
+![alt 2](https://s8.uupload.ir/files/photo_2023-07-08_19-47-35_1316.jpg)
+![alt 3](https://s8.uupload.ir/files/photo_2023-07-08_19-47-31_pvv9.png)
+![alt 4](https://s8.uupload.ir/files/screenshot_20230708_194428_com.karpardaz.karpardaz_umbv.png)
 * For Mobile: https://github.com/HossienHunTa/karpardaz/releases/tag/release (Alpha Version)
 
 ## Getting Started
